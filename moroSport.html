@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MoroSport – Wireframe Prototype (with Comments)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* ------- Global Reset ------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: #f5f5f5;
+      color: #111827;
+      height: 100vh;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    /* ------- Layout ------- */
+    .app-shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      max-width: 1400px;
+      width: 100%;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: 0 10px 40px rgba(15, 23, 42, 0.15);
+    }
+
+    /* ------- Sidebar ------- */
+    .sidebar {
+      border-right: 1px solid #e5e7eb;
+      padding: 16px 16px 24px;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      margin-bottom: 16px;
+    }
+
+    .sidebar-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .sidebar-subtitle {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .section-title {
+      margin-top: 16px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #9ca3af;
+    }
+
+    .screen-list {
+      list-style: none;
+      margin-bottom: 8px;
+    }
+
+    .screen-item {
+      font-size: 13px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #374151;
+      transition: background 0.12s ease, color 0.12s ease;
+      border: 1px solid transparent;
+    }
+
+    .screen-item span.badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      color: #6b7280;
+    }
+
+    .screen-item:hover {
+      background: #f3f4f6;
+    }
+
+    .screen-item.active {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #111827;
+    }
+
+    .screen-item.active span.badge {
+      border-color: #4b5563;
+      color: #e5e7eb;
+    }
+
+    /* ------- Preview Area ------- */
+    .preview-area {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: radial-gradient(circle at top left, #f9fafb, #e5e7eb);
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .preview-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .preview-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .preview-meta {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .preview-hint {
+      font-size: 11px;
+      color: #9ca3af;
+      max-width: 260px;
+      text-align: right;
+    }
+
+    .preview-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+    }
+
+    /* ------- Phone Wireframe ------- */
+    .phone-frame {
+      width: 390px; /* iPhone-ish width */
+      height: 844px;
+      border-radius: 32px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .phone-notch {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 160px;
+      height: 18px;
+      border-radius: 999px;
+      background: #111827;
+    }
+
+    .phone-status-bar {
+      height: 32px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #6b7280;
+    }
+
+    .phone-content {
+      flex: 1;
+      border-top: 1px dashed #e5e7eb;
+      border-bottom: 1px dashed #e5e7eb;
+      padding: 12px;
+      overflow-y: auto;
+      background: #fafafa;
+    }
+
+    .phone-nav-bar {
+      height: 52px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      font-size: 10px;
+      color: #9ca3af;
+      background: #ffffff;
+    }
+
+    .nav-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: #d1d5db;
+      margin-top: 3px;
+    }
+
+    /* Common wireframe blocks */
+    .wf-header {
+      height: 40px;
+      border-radius: 10px;
+      border: 1px dashed #d1d5db;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: #6b7280;
+      justify-content: space-between;
+    }
+
+    .wf-title-line {
+      width: 60%;
+      height: 10px;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .wf-chip {
+      border-radius: 999px;
+      border: 1px dashed #e5e7eb;
+      padding: 3px 8px;
+      font-size: 10px;
+      color: #9ca3af;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-right: 4px;
+    }
+
+    .wf-block {
+      border-radius: 10px;
+      border: 1px dashed #d1d5db;
+      background: #ffffff;
+      padding: 8px;
+      font-size: 11px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .wf-block-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+
+    .wf-line {
+      height: 8px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin-bottom: 4px;
+      width: 100%;
+    }
+
+    .wf-line.short {
+      width: 60%;
+    }
+
+    .wf-list-item {
+      border-radius: 8px;
+      border: 1px dashed #e5e7eb;
+      padding: 6px 8px;
+      margin-bottom: 6px;
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr) 40px;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .wf-list-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 1px dashed #d1d5db;
+      background: #f3f4f6;
+    }
+
+    .wf-pill {
+      border-radius: 999px;
+      border: 1px dashed #d1d5db;
+      height: 10px;
+      width: 32px;
+    }
+
+    .wf-input-row {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 6px;
+    }
+
+    .wf-input-label {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    .wf-input {
+      height: 28px;
+      border-radius: 6px;
+      border: 1px dashed #d1d5db;
+      background: #ffffff;
+    }
+
+    .wf-button-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .wf-button {
+      flex: 1;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px dashed #111827;
+      font-size: 11px;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wf-button.secondary {
+      border-style: dashed;
+      border-color: #d1d5db;
+      color: #6b7280;
+    }
+
+    .wf-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .wf-stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .wf-stat-card {
+      border-radius: 8px;
+      border: 1px dashed #e5e7eb;
+      background: #ffffff;
+      padding: 6px;
+      font-size: 10px;
+      color: #6b7280;
+    }
+
+    /* small label for each screen */
+    .wf-screen-label {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ------- Desktop (Dashboard) Wireframe ------- */
+    .desktop-frame {
+      width: 100%;
+      max-width: 1100px;
+      height: 640px;
+      border-radius: 20px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.15);
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      overflow: hidden;
+    }
+
+    .desk-sidebar {
+      border-right: 1px solid #e5e7eb;
+      padding: 12px 10px;
+      background: #f9fafb;
+      position: relative;
+    }
+
+    .desk-sidebar-title {
+      width: 60%;
+      height: 12px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin-bottom: 12px;
+    }
+
+    .desk-side-item {
+      height: 20px;
+      border-radius: 999px;
+      border: 1px dashed #d1d5db;
+      background: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .desk-main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .desk-topbar {
+      height: 44px;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .desk-top-left {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .desk-top-right {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .desk-chip {
+      width: 70px;
+      height: 16px;
+      border-radius: 999px;
+      border: 1px dashed #d1d5db;
+      background: #ffffff;
+    }
+
+    .desk-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px dashed #d1d5db;
+      background: #ffffff;
+    }
+
+    .desk-content {
+      flex: 1;
+      padding: 10px 12px;
+      background: #f9fafb;
+      overflow: auto;
+    }
+
+    .desk-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr;
+      gap: 8px;
+    }
+
+    .desk-card {
+      border-radius: 10px;
+      border: 1px dashed #d1d5db;
+      background: #ffffff;
+      padding: 8px;
+      margin-bottom: 6px;
+      font-size: 11px;
+      color: #6b7280;
+      position: relative;
+    }
+
+    .desk-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .desk-card-title {
+      width: 40%;
+      height: 10px;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .desk-table {
+      margin-top: 4px;
+    }
+
+    .desk-table-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1.2fr 0.8fr 0.8fr;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .desk-table-cell {
+      height: 8px;
+      border-radius: 999px;
+      background: #f3f4f6;
+    }
+
+    .desk-form-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .desk-form-field {
+      height: 26px;
+      border-radius: 6px;
+      border: 1px dashed #d1d5db;
+      background: #ffffff;
+    }
+
+    .desk-form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .desk-btn {
+      width: 80px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px dashed #111827;
+      background: #ffffff;
+    }
+
+    .desk-btn.secondary {
+      border-color: #d1d5db;
+    }
+
+    /* ---------- COMMENT LABELS INSIDE UI ---------- */
+    .comment-note {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      right: 8px;
+      font-size: 10px;
+      color: #9ca3af;
+      line-height: 1.3;
+      pointer-events: none;
+    }
+
+    .comment-note.sidebar-note {
+      top: auto;
+      bottom: 8px;
+      left: 10px;
+      right: 10px;
+    }
+
+    .comment-note.topbar-note {
+      top: 46px;
+      left: 12px;
+      right: 12px;
+    }
+
+    .desk-card .comment-note {
+      top: 6px;
+    }
+
+    @media (max-width: 900px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        height: 40vh;
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .preview-area {
+        height: 60vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">MoroSport – Wireframes</div>
+     
+   
+      </div>
+
+      <div>
+        <div class="section-title">Mobile App</div>
+        <ul class="screen-list" id="mobile-screen-list"></ul>
+      </div>
+
+      <div>
+        <div class="section-title">Admin Dashboard</div>
+        <ul class="screen-list" id="dashboard-screen-list"></ul>
+      </div>
+    </aside>
+
+    <!-- Preview Area -->
+    <main class="preview-area">
+      <div class="preview-header">
+        <div class="preview-title-block">
+          <div class="preview-title" id="preview-title">
+            Select a screen
+          </div>
+          <div class="preview-meta" id="preview-meta">
+            Click any screen on the left to preview its wireframe layout.
+          </div>
+        </div>
+      
+      </div>
+
+      <div class="preview-body">
+        <div id="preview-canvas"></div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ------------- SCREEN DEFINITIONS -------------
+
+    const mobileScreens = [
+      { id: "m-splash", name: "Splash Screen", template: "splash" },
+      { id: "m-onboarding", name: "Onboarding Flow", template: "onboarding" },
+      { id: "m-login", name: "Login", template: "auth" },
+      { id: "m-signup", name: "Sign Up", template: "auth" },
+      { id: "m-forgot", name: "Forgot Password", template: "auth-simple" },
+
+      { id: "m-home", name: "Home Feed (City Sports)", template: "home-feed" },
+      {
+        id: "m-matches-list",
+        name: "Matches List",
+        template: "list-matches",
+      },
+      {
+        id: "m-match-detail",
+        name: "Match Detail (Live)",
+        template: "match-detail",
+      },
+      {
+        id: "m-live-report",
+        name: "Live Reporting",
+        template: "live-report",
+      },
+      {
+        id: "m-create-match",
+        name: "Create / Join Match",
+        template: "form-match",
+      },
+
+      { id: "m-club", name: "Club Page", template: "club-page" },
+      { id: "m-team", name: "Team Page", template: "team-page" },
+      { id: "m-player", name: "Player Profile", template: "player-profile" },
+
+      {
+        id: "m-fitness-dashboard",
+        name: "Fitness Dashboard",
+        template: "fitness",
+      },
+      {
+        id: "m-workout-tracking",
+        name: "Workout Tracking",
+        template: "workout",
+      },
+
+      {
+        id: "m-marketplace-home",
+        name: "Marketplace Home",
+        template: "market-home",
+      },
+      {
+        id: "m-product-detail",
+        name: "Product Detail",
+        template: "product-detail",
+      },
+      {
+        id: "m-add-item",
+        name: "Add Item to Sell",
+        template: "form-item",
+      },
+
+      { id: "m-kids-home", name: "Kids Mode – Home", template: "kids-home" },
+      {
+        id: "m-kids-missions",
+        name: "Kids Missions & Rewards",
+        template: "kids-missions",
+      },
+
+      { id: "m-profile", name: "User Profile", template: "profile" },
+      { id: "m-edit-profile", name: "Edit Profile", template: "edit-profile" },
+      { id: "m-settings", name: "Settings", template: "settings" },
+    ];
+
+    const dashboardScreens = [
+      { id: "d-login", name: "Admin Login", template: "d-auth" },
+      {
+        id: "d-dashboard-home",
+        name: "Dashboard Home (Analytics)",
+        template: "d-home",
+      },
+      { id: "d-users-list", name: "Users List", template: "d-users" },
+      {
+        id: "d-user-detail",
+        name: "User Detail & Roles",
+        template: "d-user-detail",
+      },
+
+      { id: "d-cities-list", name: "Cities List", template: "d-cities" },
+      { id: "d-city-detail", name: "City Detail", template: "d-city-detail" },
+
+      { id: "d-clubs-list", name: "Clubs List", template: "d-clubs" },
+      { id: "d-club-detail", name: "Club Detail", template: "d-club-detail" },
+      { id: "d-teams-list", name: "Teams List", template: "d-teams" },
+      { id: "d-team-detail", name: "Team Detail", template: "d-team-detail" },
+
+      { id: "d-matches-list", name: "Matches List", template: "d-matches" },
+      {
+        id: "d-match-detail",
+        name: "Match Detail Moderation",
+        template: "d-match-detail",
+      },
+
+      {
+        id: "d-reporter-management",
+        name: "Reporters & Referees",
+        template: "d-reporters",
+      },
+
+      {
+        id: "d-products-list",
+        name: "Marketplace Products",
+        template: "d-products",
+      },
+      {
+        id: "d-orders-list",
+        name: "Orders & Payments",
+        template: "d-orders",
+      },
+
+      {
+        id: "d-media-moderation",
+        name: "Media & Posts Moderation",
+        template: "d-media",
+      },
+      { id: "d-reports", name: "Reports & Flags", template: "d-reports" },
+
+      {
+        id: "d-fitness-global",
+        name: "Fitness Global Analytics",
+        template: "d-fitness",
+      },
+      {
+        id: "d-fitness-city",
+        name: "Fitness by City",
+        template: "d-fitness-city",
+      },
+
+      { id: "d-settings", name: "App Settings", template: "d-settings" },
+      {
+        id: "d-roles",
+        name: "Roles & Permissions",
+        template: "d-roles",
+      },
+      {
+        id: "d-notifications",
+        name: "Notification Settings",
+        template: "d-notifs",
+      },
+    ];
+
+    // ------------- RENDER SIDEBAR LISTS -------------
+
+    const mobileListEl = document.getElementById("mobile-screen-list");
+    const dashboardListEl = document.getElementById("dashboard-screen-list");
+    const previewTitleEl = document.getElementById("preview-title");
+    const previewMetaEl = document.getElementById("preview-meta");
+    const previewCanvasEl = document.getElementById("preview-canvas");
+
+    function createScreenListItem(screen, category) {
+      const li = document.createElement("li");
+      li.className = "screen-item";
+      li.dataset.screenId = screen.id;
+      li.dataset.category = category;
+      li.innerHTML = `<span>${screen.name}</span><span class="badge">${category}</span>`;
+      li.addEventListener("click", () => {
+        document
+          .querySelectorAll(".screen-item.active")
+          .forEach((n) => n.classList.remove("active"));
+        li.classList.add("active");
+        renderScreen(screen, category);
+      });
+      return li;
+    }
+
+    mobileScreens.forEach((s) =>
+      mobileListEl.appendChild(createScreenListItem(s, "mobile"))
+    );
+    dashboardScreens.forEach((s) =>
+      dashboardListEl.appendChild(createScreenListItem(s, "dashboard"))
+    );
+
+    // ------------- MOBILE TEMPLATES -------------
+
+    function mobileTemplateHTML(screen) {
+      switch (screen.template) {
+        case "splash":
+          return `
+            <div class="wf-screen-label">Splash / Launch</div>
+            <div class="wf-block" style="height: 70%; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+              <div class="wf-line" style="width:50%; height:14px; margin-bottom:8px;"></div>
+              <div class="wf-line short" style="height:10px;"></div>
+            </div>
+            <div class="wf-block" style="text-align:center;">
+              <div class="wf-block-label">Why?</div>
+              <div class="wf-line short" style="margin:0 auto;"></div>
+              <!-- Comment -->
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                First impression of MoroSport brand while the app loads.
+              </div>
+            </div>
+          `;
+        case "onboarding":
+          return `
+            <div class="wf-screen-label">Onboarding Flow</div>
+            <div class="wf-block" style="height:45%;">
+              <div class="wf-line" style="width:80%; margin-bottom:4px;"></div>
+              <div class="wf-line" style="width:60%; margin-bottom:4px;"></div>
+              <div class="wf-line" style="width:50%;"></div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Why?</div>
+              <div style="font-size:10px; color:#9ca3af; margin-bottom:6px;">
+                Explain quickly what MoroSport does (play, follow, organise, shop) before asking for sign up.
+              </div>
+              <div class="wf-button-row">
+                <div class="wf-button secondary">Skip</div>
+                <div class="wf-button">Next</div>
+              </div>
+            </div>
+          `;
+        case "auth":
+          return `
+            <div class="wf-screen-label">Authentication</div>
+            <div class="wf-block">
+              <div class="wf-block-label">Login / Sign up</div>
+              <div class="wf-input-row">
+                <div class="wf-input-label">Email</div>
+                <div class="wf-input"></div>
+              </div>
+              <div class="wf-input-row">
+                <div class="wf-input-label">Password</div>
+                <div class="wf-input"></div>
+              </div>
+              <div class="wf-button-row">
+                <div class="wf-button">Continue</div>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                We need a simple login to save player data, stats, teams and marketplace items.
+              </div>
+            </div>
+          `;
+        case "auth-simple":
+          return `
+            <div class="wf-screen-label">Password Recovery</div>
+            <div class="wf-block">
+              <div class="wf-input-row">
+                <div class="wf-input-label">Email</div>
+                <div class="wf-input"></div>
+              </div>
+              <div class="wf-button-row">
+                <div class="wf-button">Send Link</div>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Allows users to recover access without contacting support.
+              </div>
+            </div>
+          `;
+        case "home-feed":
+          return `
+            <div class="wf-screen-label">Home – City Sports Feed</div>
+            <div class="wf-header">
+              <div class="wf-title-line"></div>
+              <span class="wf-chip">City ▾</span>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Filters</div>
+              <div class="wf-tag-row">
+                <span class="wf-chip">All sports</span>
+                <span class="wf-chip">Today</span>
+                <span class="wf-chip">Nearby</span>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Main entry point: see all matches and activities happening around the user in his city.
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Matches</div>
+              ${Array.from({ length: 4 })
+                .map(
+                  () => `
+                <div class="wf-list-item">
+                  <div class="wf-list-avatar"></div>
+                  <div>
+                    <div class="wf-line" style="height:8px;"></div>
+                    <div class="wf-line short" style="height:6px;"></div>
+                  </div>
+                  <div class="wf-pill"></div>
+                </div>`
+                )
+                .join("")}
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Each row is a match card (teams, time, location, live status).
+              </div>
+            </div>
+          `;
+        case "list-matches":
+          return `
+            <div class="wf-screen-label">Matches List</div>
+            <div class="wf-block">
+              <div class="wf-block-label">Search & Filters</div>
+              <div class="wf-input" style="margin-bottom:6px;"></div>
+              <div class="wf-tag-row">
+                <span class="wf-chip">Football</span>
+                <span class="wf-chip">Basketball</span>
+                <span class="wf-chip">Today</span>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Dedicated screen to explore and filter matches by sport, date, and level.
+              </div>
+            </div>
+            <div class="wf-block">
+              ${Array.from({ length: 5 })
+                .map(
+                  () => `
+                <div class="wf-list-item">
+                  <div class="wf-list-avatar"></div>
+                  <div>
+                    <div class="wf-line" style="height:8px;"></div>
+                    <div class="wf-line short" style="height:6px;"></div>
+                  </div>
+                  <div class="wf-pill"></div>
+                </div>`
+                )
+                .join("")}
+            </div>
+          `;
+        case "match-detail":
+          return `
+            <div class="wf-screen-label">Match Detail & Live</div>
+            <div class="wf-block">
+              <div class="wf-block-label">Score & Status</div>
+              <div class="wf-stat-row">
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                  <div class="wf-line" style="width:50%;"></div>
+                </div>
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                  <div class="wf-line" style="width:50%;"></div>
+                </div>
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                  <div class="wf-line" style="width:50%;"></div>
+                </div>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Shows live score, time and key stats for fans following the match.
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Timeline</div>
+              ${Array.from({ length: 4 })
+                .map(
+                  () => `
+                <div class="wf-line" style="height:8px;"></div>`
+                )
+                .join("")}
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Chronological list of goals, cards and key actions reported from the field.
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">MVP Voting</div>
+              <div class="wf-tag-row">
+                <span class="wf-chip">Player #7</span>
+                <span class="wf-chip">Player #10</span>
+                <span class="wf-chip">Player #9</span>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Simple MVP poll to increase engagement from fans and players.
+              </div>
+            </div>
+          `;
+        case "live-report":
+          return `
+            <div class="wf-screen-label">Live Reporter View</div>
+            <div class="wf-block">
+              <div class="wf-block-label">Quick Actions</div>
+              <div class="wf-tag-row">
+                <span class="wf-chip">Goal</span>
+                <span class="wf-chip">Card</span>
+                <span class="wf-chip">Substitution</span>
+                <span class="wf-chip">Note</span>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Help the volunteer reporter to publish events with one tap during the match.
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-input-row">
+                <div class="wf-input-label">Event description</div>
+                <div class="wf-input" style="height:40px;"></div>
+              </div>
+              <div class="wf-button-row">
+                <div class="wf-button">Post Event</div>
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Recent Events</div>
+              ${Array.from({ length: 3 })
+                .map(() => `<div class="wf-line" style="height:8px;"></div>`)
+                .join("")}
+            </div>
+          `;
+        case "form-match":
+          return `
+            <div class="wf-screen-label">Create / Join Match</div>
+            <div class="wf-block">
+              <div class="wf-input-row">
+                <div class="wf-input-label">Match title</div>
+                <div class="wf-input"></div>
+              </div>
+              <div class="wf-input-row">
+                <div class="wf-input-label">Location</div>
+                <div class="wf-input"></div>
+              </div>
+              <div class="wf-input-row">
+                <div class="wf-input-label">Date & time</div>
+                <div class="wf-input"></div>
+              </div>
+              <div class="wf-button-row">
+                <div class="wf-button secondary">Join existing</div>
+                <div class="wf-button">Create</div>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                This is where players organise friendly games and fill missing players.
+              </div>
+            </div>
+          `;
+        case "club-page":
+          return `
+            <div class="wf-screen-label">Club Page</div>
+            <div class="wf-block">
+              <div class="wf-list-avatar" style="margin-bottom:6px;"></div>
+              <div class="wf-line" style="width:60%;"></div>
+              <div class="wf-tag-row" style="margin-top:6px;">
+                <span class="wf-chip">Football</span>
+                <span class="wf-chip">City</span>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Official space for each club: logo, basic info, city and sport.
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Teams</div>
+              ${Array.from({ length: 3 })
+                .map(() => `<div class="wf-line" style="height:8px;"></div>`)
+                .join("")}
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Upcoming Matches</div>
+              ${Array.from({ length: 3 })
+                .map(() => `<div class="wf-line short" style="height:8px;"></div>`)
+                .join("")}
+            </div>
+          `;
+        case "team-page":
+          return `
+            <div class="wf-screen-label">Team Page</div>
+            <div class="wf-block">
+              <div class="wf-line" style="width:70%;"></div>
+              <div class="wf-tag-row" style="margin-top:4px;">
+                <span class="wf-chip">Category</span>
+                <span class="wf-chip">Coach</span>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Presentation of a specific team inside the club (U17, Women, etc.).
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Players</div>
+              ${Array.from({ length: 4 })
+                .map(
+                  () => `
+                <div class="wf-list-item">
+                  <div class="wf-list-avatar"></div>
+                  <div>
+                    <div class="wf-line" style="height:8px;"></div>
+                    <div class="wf-line short" style="height:6px;"></div>
+                  </div>
+                  <div class="wf-pill"></div>
+                </div>`
+                )
+                .join("")}
+            </div>
+          `;
+        case "player-profile":
+          return `
+            <div class="wf-screen-label">Player Profile</div>
+            <div class="wf-block" style="display:flex; gap:8px;">
+              <div class="wf-list-avatar"></div>
+              <div style="flex:1;">
+                <div class="wf-line" style="height:10px;"></div>
+                <div class="wf-line short" style="height:8px;"></div>
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Stats</div>
+              <div class="wf-stat-row">
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                  <div class="wf-line" style="width:50%;"></div>
+                </div>
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                  <div class="wf-line" style="width:50%;"></div>
+                </div>
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                  <div class="wf-line" style="width:50%;"></div>
+                </div>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Personal stats and history; useful for talent discovery and scouting.
+              </div>
+            </div>
+          `;
+        case "fitness":
+          return `
+            <div class="wf-screen-label">Fitness Dashboard</div>
+            <div class="wf-block">
+              <div class="wf-block-label">Today</div>
+              <div class="wf-stat-row">
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                  <div class="wf-line" style="width:60%;"></div>
+                </div>
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                  <div class="wf-line" style="width:60%;"></div>
+                </div>
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                  <div class="wf-line" style="width:60%;"></div>
+                </div>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Shows steps, calories, heart rate synced from smartwatches.
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Activity</div>
+              ${Array.from({ length: 4 })
+                .map(() => `<div class="wf-line" style="height:8px;"></div>`)
+                .join("")}
+            </div>
+          `;
+        case "workout":
+          return `
+            <div class="wf-screen-label">Workout Tracking</div>
+            <div class="wf-block">
+              <div class="wf-block-label">Timer & Metrics</div>
+              <div class="wf-line" style="width:50%; height:12px;"></div>
+              <div class="wf-stat-row" style="margin-top:6px;">
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                </div>
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                </div>
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                </div>
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Controls</div>
+              <div class="wf-button-row">
+                <div class="wf-button secondary">Pause</div>
+                <div class="wf-button">Finish</div>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Simple controls to manage a training session inside the app.
+              </div>
+            </div>
+          `;
+        case "market-home":
+          return `
+            <div class="wf-screen-label">Marketplace Home</div>
+            <div class="wf-block">
+              <div class="wf-block-label">Categories</div>
+              <div class="wf-tag-row">
+                <span class="wf-chip">Equipment</span>
+                <span class="wf-chip">Apparel</span>
+                <span class="wf-chip">Services</span>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Navigation for users to browse what they want to buy or sell.
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Items</div>
+              ${Array.from({ length: 4 })
+                .map(() => `
+                  <div class="wf-list-item">
+                    <div class="wf-list-avatar"></div>
+                    <div>
+                      <div class="wf-line" style="height:8px;"></div>
+                      <div class="wf-line short" style="height:6px;"></div>
+                    </div>
+                    <div class="wf-pill"></div>
+                  </div>`)
+                .join("")}
+            </div>
+          `;
+        case "product-detail":
+          return `
+            <div class="wf-screen-label">Product Detail</div>
+            <div class="wf-block" style="height:160px;"></div>
+            <div class="wf-block">
+              <div class="wf-line" style="width:60%;"></div>
+              <div class="wf-line short" style="margin-top:4px;"></div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Details</div>
+              ${Array.from({ length: 3 })
+                .map(() => `<div class="wf-line" style="height:8px;"></div>`)
+                .join("")}
+              <div class="wf-button-row" style="margin-top:8px;">
+                <div class="wf-button">Contact Seller</div>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Detailed view of a product so the user can decide to buy or message the seller.
+              </div>
+            </div>
+          `;
+        case "form-item":
+          return `
+            <div class="wf-screen-label">Add Item to Sell</div>
+            <div class="wf-block">
+              <div class="wf-input-row">
+                <div class="wf-input-label">Title</div>
+                <div class="wf-input"></div>
+              </div>
+              <div class="wf-input-row">
+                <div class="wf-input-label">Price</div>
+                <div class="wf-input"></div>
+              </div>
+              <div class="wf-input-row">
+                <div class="wf-input-label">Category</div>
+                <div class="wf-input"></div>
+              </div>
+              <div class="wf-button-row">
+                <div class="wf-button secondary">Cancel</div>
+                <div class="wf-button">Publish</div>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Very simple form so any player can sell equipment or jerseys.
+              </div>
+            </div>
+          `;
+        case "kids-home":
+          return `
+            <div class="wf-screen-label">Kids Mode – Home</div>
+            <div class="wf-block">
+              <div class="wf-block-label">Character</div>
+              <div class="wf-list-avatar" style="margin-bottom:6px;"></div>
+              <div class="wf-line short"></div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Kids see their avatar and name – makes the app playful but still safe.
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Missions</div>
+              ${Array.from({ length: 3 })
+                .map(() => `
+                  <div class="wf-list-item">
+                    <div class="wf-list-avatar"></div>
+                    <div>
+                      <div class="wf-line" style="height:8px;"></div>
+                      <div class="wf-line short" style="height:6px;"></div>
+                    </div>
+                    <div class="wf-pill"></div>
+                  </div>`)
+                .join("")}
+            </div>
+          `;
+        case "kids-missions":
+          return `
+            <div class="wf-screen-label">Kids Missions & Rewards</div>
+            <div class="wf-block">
+              <div class="wf-block-label">Progress</div>
+              <div class="wf-line" style="height:10px;"></div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Rewards</div>
+              <div class="wf-tag-row">
+                <span class="wf-chip">Badge</span>
+                <span class="wf-chip">Sticker</span>
+                <span class="wf-chip">New mission</span>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Gamification for kids – safe rewards instead of money.
+              </div>
+            </div>
+          `;
+        case "profile":
+          return `
+            <div class="wf-screen-label">User Profile</div>
+            <div class="wf-block" style="display:flex; gap:8px;">
+              <div class="wf-list-avatar"></div>
+              <div style="flex:1;">
+                <div class="wf-line" style="height:10px;"></div>
+                <div class="wf-line short" style="height:8px;"></div>
+              </div>
+            </div>
+            <div class="wf-block">
+              <div class="wf-block-label">Stats</div>
+              <div class="wf-stat-row">
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                </div>
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                </div>
+                <div class="wf-stat-card">
+                  <div class="wf-line short"></div>
+                </div>
+              </div>
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Personal hub: followers, matches played, missions completed.
+              </div>
+            </div>
+          `;
+        case "edit-profile":
+          return `
+            <div class="wf-screen-label">Edit Profile</div>
+            <div class="wf-block">
+              <div class="wf-input-row">
+                <div class="wf-input-label">Name</div>
+                <div class="wf-input"></div>
+              </div>
+              <div class="wf-input-row">
+                <div class="wf-input-label">Username</div>
+                <div class="wf-input"></div>
+              </div>
+              <div class="wf-input-row">
+                <div class="wf-input-label">Bio</div>
+                <div class="wf-input" style="height:40px;"></div>
+              </div>
+              <div class="wf-button-row">
+                <div class="wf-button secondary">Cancel</div>
+                <div class="wf-button">Save</div>
+              </div>
+            </div>
+          `;
+        case "settings":
+          return `
+            <div class="wf-screen-label">Settings</div>
+            <div class="wf-block">
+              ${Array.from({ length: 6 })
+                .map(() => `<div class="wf-line" style="height:10px;"></div>`)
+                .join("")}
+              <div style="font-size:10px; color:#9ca3af; margin-top:4px;">
+                Controls for language, notifications, privacy, kids mode and account deletion.
+              </div>
+            </div>
+          `;
+        default:
+          return `
+            <div class="wf-block">
+              <div class="wf-block-label">Placeholder</div>
+              <div class="wf-line"></div>
+              <div class="wf-line short"></div>
+            </div>
+          `;
+      }
+    }
+
+    // ------------- DASHBOARD TEMPLATES (WITH COMMENTS) -------------
+
+    function dashboardTemplateHTML(screen) {
+      let leftCol = "";
+      let rightCol = "";
+      let generalComment = "";
+
+      const genericTable = `
+        <div class="desk-table">
+          ${Array.from({ length: 5 })
+            .map(
+              () => `
+            <div class="desk-table-row">
+              <div class="desk-table-cell"></div>
+              <div class="desk-table-cell"></div>
+              <div class="desk-table-cell"></div>
+              <div class="desk-table-cell"></div>
+            </div>`
+            )
+            .join("")}
+        </div>`;
+
+      switch (screen.template) {
+        case "d-auth":
+          generalComment =
+            "Simple secure login for city admins and MoroSport staff to access management tools.";
+          leftCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Admin login form – email & password, possibly SSO later.
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title" style="width:50%;"></div>
+              </div>
+              <div class="desk-form-row">
+                <div class="desk-form-field"></div>
+                <div class="desk-form-field"></div>
+              </div>
+              <div class="desk-form-actions">
+                <div class="desk-btn secondary"></div>
+                <div class="desk-btn"></div>
+              </div>
+            </div>
+          `;
+          rightCol = "";
+          break;
+
+        case "d-home":
+          generalComment =
+            "High-level overview: admins see how MoroSport performs (users, cities, matches, marketplace…).";
+          leftCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Main KPIs – number of active users, matches this week, cities onboarded, etc.
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title"></div>
+                <div class="desk-chip"></div>
+              </div>
+              <div class="desk-table">
+                ${Array.from({ length: 3 })
+                  .map(
+                    () => `
+                  <div class="desk-table-row">
+                    <div class="desk-table-cell"></div>
+                    <div class="desk-table-cell"></div>
+                    <div class="desk-table-cell"></div>
+                    <div class="desk-table-cell"></div>
+                  </div>`
+                  )
+                  .join("")}
+              </div>
+            </div>
+            <div class="desk-card">
+              <div class="comment-note">
+                Quick view of growth trends (new users per week, matches per city…).
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title" style="width:30%;"></div>
+                <div class="desk-chip"></div>
+              </div>
+              <div class="desk-table-row">
+                <div class="desk-table-cell" style="width:60%;"></div>
+                <div class="desk-table-cell"></div>
+              </div>
+              <div class="desk-table-row">
+                <div class="desk-table-cell" style="width:40%;"></div>
+                <div class="desk-table-cell"></div>
+              </div>
+            </div>
+          `;
+          rightCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Top cities / clubs – helps the team see where MoroSport is most active.
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title" style="width:60%;"></div>
+              </div>
+              <div class="desk-table-row">
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+              </div>
+              <div class="desk-table-row">
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+              </div>
+            </div>
+          `;
+          break;
+
+        case "d-users":
+        case "d-cities":
+        case "d-clubs":
+        case "d-teams":
+        case "d-matches":
+        case "d-products":
+        case "d-orders":
+          generalComment =
+            "Standard management view: left card lists items, right card edits a selected item.";
+          leftCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Table listing all ${screen.name.toLowerCase()} with search, sort and filters.
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title"></div>
+                <div class="desk-chip"></div>
+              </div>
+              ${genericTable}
+            </div>
+          `;
+          rightCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Detail form to view or edit the selected row (change status, update info, etc.).
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title" style="width:50%;"></div>
+              </div>
+              <div class="desk-form-row">
+                <div class="desk-form-field"></div>
+                <div class="desk-form-field"></div>
+                <div class="desk-form-field"></div>
+                <div class="desk-form-field"></div>
+              </div>
+              <div class="desk-form-actions">
+                <div class="desk-btn secondary"></div>
+                <div class="desk-btn"></div>
+              </div>
+            </div>
+          `;
+          break;
+
+        case "d-user-detail":
+        case "d-club-detail":
+        case "d-team-detail":
+        case "d-match-detail":
+          generalComment =
+            "Focused detail page when admin needs more context on one entity (user, club, team or match).";
+          leftCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Summary data: basic fields and quick stats for the selected item.
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title"></div>
+              </div>
+              <div class="desk-table-row">
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+              </div>
+              <div class="desk-table-row">
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+              </div>
+            </div>
+          `;
+          rightCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Edit form and actions (ban user, verify club, approve match result, etc.).
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title" style="width:40%;"></div>
+              </div>
+              <div class="desk-form-row">
+                <div class="desk-form-field"></div>
+                <div class="desk-form-field"></div>
+                <div class="desk-form-field"></div>
+                <div class="desk-form-field"></div>
+              </div>
+              <div class="desk-form-actions">
+                <div class="desk-btn secondary"></div>
+                <div class="desk-btn"></div>
+              </div>
+            </div>
+          `;
+          break;
+
+        case "d-reporters":
+        case "d-media":
+        case "d-reports":
+          generalComment =
+            "Moderation workspace: manage reporters, user content and abuse reports to keep the platform clean.";
+          leftCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                List of reporters / posts / reports with status (pending, approved, blocked…).
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title"></div>
+                <div class="desk-chip"></div>
+              </div>
+              ${genericTable}
+            </div>
+          `;
+          rightCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Detailed context on the selected media or report so admins can take a decision.
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title" style="width:50%;"></div>
+              </div>
+              ${Array.from({ length: 4 })
+                .map(
+                  () =>
+                    `<div class="desk-table-row"><div class="desk-table-cell"></div><div class="desk-table-cell"></div></div>`
+                )
+                .join("")}
+            </div>
+          `;
+          break;
+
+        case "d-fitness":
+        case "d-fitness-city":
+          generalComment =
+            "Aggregated fitness analytics to show the impact of MoroSport on activity levels.";
+          leftCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Graph / KPIs about total steps, workouts and active users (global or by city).
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title"></div>
+              </div>
+              <div class="desk-table-row">
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+              </div>
+              <div class="desk-table-row">
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+                <div class="desk-table-cell"></div>
+              </div>
+            </div>
+          `;
+          rightCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Breakdown per city, age group or sport – helps municipalities see the value of MoroSport.
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title" style="width:60%;"></div>
+              </div>
+              ${Array.from({ length: 4 })
+                .map(
+                  () =>
+                    `<div class="desk-table-row"><div class="desk-table-cell"></div><div class="desk-table-cell"></div></div>`
+                )
+                .join("")}
+            </div>
+          `;
+          break;
+
+        case "d-settings":
+        case "d-roles":
+        case "d-notifs":
+        default:
+          generalComment =
+            "Configuration area: fine-tune how MoroSport works (roles, permissions, notifications).";
+          leftCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Settings options grouped by topic (roles, limits, city-specific rules…).
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title"></div>
+              </div>
+              ${Array.from({ length: 6 })
+                .map(
+                  () =>
+                    `<div class="desk-table-row"><div class="desk-table-cell"></div><div class="desk-table-cell"></div></div>`
+                )
+                .join("")}
+            </div>
+          `;
+          rightCol = `
+            <div class="desk-card">
+              <div class="comment-note">
+                Edit the selected configuration and apply changes to the whole platform.
+              </div>
+              <div class="desk-card-header">
+                <div class="desk-card-title" style="width:50%;"></div>
+              </div>
+              <div class="desk-form-row">
+                <div class="desk-form-field"></div>
+                <div class="desk-form-field"></div>
+                <div class="desk-form-field"></div>
+                <div class="desk-form-field"></div>
+              </div>
+              <div class="desk-form-actions">
+                <div class="desk-btn secondary"></div>
+                <div class="desk-btn"></div>
+              </div>
+            </div>
+          `;
+          break;
+      }
+
+      return `
+        <div class="desktop-frame">
+          <div class="desk-sidebar">
+            <div class="desk-sidebar-title"></div>
+            ${Array.from({ length: 7 })
+              .map(() => `<div class="desk-side-item"></div>`)
+              .join("")}
+            <div class="comment-note sidebar-note">
+              Sidebar navigation: switch between modules (Dashboard, Users, Cities, Clubs, Matches, Marketplace, Settings).
+            </div>
+          </div>
+          <div class="desk-main">
+            <div class="desk-topbar">
+              <div class="desk-top-left">
+                <div class="desk-chip"></div>
+                <div class="desk-chip"></div>
+              </div>
+              <div class="desk-top-right">
+                <div class="desk-chip"></div>
+                <div class="desk-circle"></div>
+              </div>
+            </div>
+            <div class="desk-content">
+             
+              <div class="desk-grid">
+                <div>${leftCol}</div>
+                <div>${rightCol}</div>
+              </div>
+              ${
+                generalComment
+                  ? `<div style="font-size:10px;color:#9ca3af;margin-top:6px;">
+                      Global explanation: ${generalComment}
+                    </div>`
+                  : ""
+              }
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ------------- MAIN RENDER FUNCTION -------------
+
+    function renderScreen(screen, category) {
+      previewTitleEl.textContent = screen.name;
+      previewMetaEl.textContent =
+        category === "mobile"
+          ? "Mobile app screen "
+          : "Admin dashboard screen";
+
+      if (category === "mobile") {
+        previewCanvasEl.innerHTML = `
+          <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-status-bar">
+              <span>09:41</span>
+              <span>•••</span>
+            </div>
+            <div class="phone-content">
+              ${mobileTemplateHTML(screen)}
+            </div>
+            <div class="phone-nav-bar">
+              <div>
+                <div>Home</div>
+                <div class="nav-dot"></div>
+              </div>
+              <div>
+                <div>Play</div>
+                <div class="nav-dot"></div>
+              </div>
+              <div>
+                <div>Feed</div>
+                <div class="nav-dot"></div>
+              </div>
+              <div>
+                <div>Market</div>
+                <div class="nav-dot"></div>
+              </div>
+              <div>
+                <div>Profile</div>
+                <div class="nav-dot"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        previewCanvasEl.innerHTML = dashboardTemplateHTML(screen);
+      }
+    }
+
+    // ------------- INITIAL SELECTION -------------
+
+    const firstItem = document.querySelector(".screen-item");
+    if (firstItem) {
+      firstItem.classList.add("active");
+      const firstScreen = mobileScreens[0];
+      renderScreen(firstScreen, "mobile");
+    }
+  </script>
+</body>
+</html>
